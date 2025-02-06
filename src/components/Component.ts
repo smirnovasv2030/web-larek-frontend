@@ -1,31 +1,46 @@
 //Базовый компонент
 
 export abstract class Component<T> {
-  protected constructor(protected readonly container: HTMLElement) {}
+  protected constructor(protected readonly container: HTMLElement) {
 
-  toggleClass(element: HTMLElement, className: string, force?: boolean): void {
-    element.classList.toggle(className, force);
   }
 
-  setText(element: HTMLElement, value: unknown): void {
-    if (element) {
-      element.textContent = String(value);
-    }
+  toggleClass(element: HTMLElement, className: string, force?: boolean) {
+      element.classList.toggle(className, force);
   }
 
-  setDisabled(element: HTMLElement, state: boolean): void {
-    if (state) element.setAttribute('disabled', 'disabled');
-    else element.removeAttribute('disabled');
+  protected setText(element: HTMLElement, value: unknown) {
+      if (element) {
+          element.textContent = String(value);
+      }
   }
 
-  setImage(element: HTMLImageElement, src: string, alt?: string): void {
-    element.src = src;
-    if (alt) element.alt = alt;
+  setDisabled(element: HTMLElement, state: boolean) {
+      if (element) {
+          if (state) element.setAttribute('disabled', 'disabled');
+          else element.removeAttribute('disabled');
+      }
   }
 
-  protected getElement(selector: string): HTMLElement {
-    const element = this.container.querySelector(selector);
-    if (!element) throw new Error(`Element not found: ${selector}`);
-    return element as HTMLElement;
+  protected setHidden(element: HTMLElement) {
+      element.style.display = 'none';
+  }
+
+  protected setVisible(element: HTMLElement) {
+      element.style.removeProperty('display');
+  }
+
+  protected setImage(element: HTMLImageElement, src: string, alt?: string) {
+      if (element) {
+          element.src = src;
+          if (alt) {
+              element.alt = alt;
+          }
+      }
+  }
+
+  render(data?: Partial<T>): HTMLElement {
+      Object.assign(this as object, data ?? {});
+      return this.container;
   }
 }

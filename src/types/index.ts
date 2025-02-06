@@ -16,13 +16,35 @@ export interface IItemsList {
 export interface IItemsData {
   items: IItem[];
   preview: string|null;
+  basket: IItem[];
   addItem(itemId: string): void;
   getItem(itemId: string): IItem;
-  basket: IItem[];
-  total: number;
   deleteItem(id: string): void;
 }
 
-export type TItemPreview = Pick<IItem, 'category' | 'title' | 'description' | 'image' | 'price'>;
+export interface IOrderData {
+  payment: string;
+  address: string;
+  email: string;
+  phone: string;
+}
 
-export type TItemBasket = Pick<IItem, 'title' | 'price' | 'id'>;
+export interface IServerOrderData {
+  payment: string;
+  address: string;
+  email: string;
+  phone: string;
+  total: number;
+  items:string[];
+}
+
+export interface IOrderResult {
+  id: string;
+  total: number|null;
+}
+
+export interface IRequestError {
+  error: string;
+}
+
+export type IFormErrors = Partial<Record<keyof IOrderData, string>>;

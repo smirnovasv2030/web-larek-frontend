@@ -1,5 +1,5 @@
 import { ApiPostMethods } from "./base/api";
-import { IItem, IItemsList } from "../types";
+import { IItem, IItemsList, IServerOrderData, IOrderResult, IRequestError } from "../types";
 
 export interface IApi {
   baseUrl: string;
@@ -22,4 +22,7 @@ export class ShopApi {
     return this._baseApi.get<IItem>(`/product/${itemId}`).then((item:IItem)=> item);
   }
 
+  sendOrderData(orderData:IServerOrderData):Promise<IOrderResult|IRequestError> {
+    return this._baseApi.post<IOrderResult|IRequestError>(`/order/`, orderData, 'POST');
+  }
 }
